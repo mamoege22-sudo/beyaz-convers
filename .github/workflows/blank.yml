@@ -1,36 +1,113 @@
-# This is a basic workflow to help you get started with Actions
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONVERSE İSTİLASI!</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Kaydırma çubuğunu gizle ki tam bir şaka gibi dursun */
+            background-color: white;
+            cursor: pointer;
+        }
 
-name: CI
+        .background-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            font-weight: 900;
+            color: #eeeeee;
+            z-index: -1;
+            text-transform: uppercase;
+            user-select: none;
+        }
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+        /* Uçuşan ayakkabıların temel stili */
+        .converse-item {
+            position: absolute;
+            width: 150px; /* Ayakkabı boyutu */
+            height: auto;
+            pointer-events: none; /* Üst üste binince tıklamayı engellemesin */
+            animation: spin 10s linear infinite;
+        }
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+        /* Bir uyarı mesajı (şaka amaçlı) */
+        #warning {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive;
+            color: red;
+            font-weight: bold;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+    <div class="background-text">BAŞKA BİR ŞEY YOK. SADECE CONVERSE.</div>
+    <div id="warning">EKRANA TIKLA! DAHA FAZLA CONVERSE!</div>
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+    <script>
+        // Beyaz Converse görselleri dizisi (Örnek şeffaf PNG'ler)
+        const images = [
+            'https://pngimg.com/uploads/converse/converse_PNG43.png',
+            'https://pngimg.com/uploads/converse/converse_PNG12.png',
+            'https://pngimg.com/uploads/converse/converse_PNG3.png'
+        ];
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        function createConverse() {
+            const img = document.createElement('img');
+            img.src = images[Math.floor(Math.random() * images.length)];
+            img.className = 'converse-item';
+            
+            // Rastgele konumlar
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            
+            // Rastgele hız ve dönme hızı
+            const duration = Math.random() * 5 + 2;
+            const delay = Math.random() * 5;
+            
+            img.style.left = x + 'px';
+            img.style.top = y + 'px';
+            img.style.animationDuration = duration + 's';
+            img.style.animationDelay = delay + 's';
+            
+            // Rastgele boyutlar
+            const scale = Math.random() * 1.5 + 0.5;
+            img.style.transform = `scale(${scale})`;
+
+            document.body.appendChild(img);
+        }
+
+        // Başlangıçta 50 tane oluştur
+        for(let i=0; i < 50; i++){
+            createConverse();
+        }
+
+        // Ekrana tıklandığında 10 tane daha oluştur (Daha fazla kaos!)
+        document.addEventListener('click', () => {
+            for(let i=0; i < 10; i++){
+                createConverse();
+            }
+        });
+
+        // Kendi kendine çoğalmaya devam etsinler
+        setInterval(createConverse, 1000);
+    </script>
+
+</body>
+</html>
